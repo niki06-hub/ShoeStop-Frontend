@@ -11,7 +11,7 @@ const Signup = () => {
   const [email, setMail] = useState('')
   const [password, setPassword] = useState('')
 
-  const url = "http://localhost:5000/signup"
+  const url = "${import.meta.env.VITE_API_URL}/signup"
 
   const changeNameHandler = (e) => {
       setName(e.target.value)
@@ -23,19 +23,21 @@ const Signup = () => {
       setPassword(e.target.value)
   }
 
-  const submitHandler = () => {
-    // console.log(name, mail, password)
-    axios.post(url, { name, email, password })
-    .then(res => {
-        if (res.status === 200 || res.status === 201) {
-            localStorage.setItem('token', JSON.stringify(res.data.token));
-            console.log(res.data); // Log the response data if the request was successful.
-            navigate('/')
-        } else {
-            console.log('Request failed with status:', res.status);
-        }
-    })
-}
+  const submitHandler = async () => {
+    try {
+        const res = await axios.post(url, {
+            name,
+            email,
+            password
+        });
+
+        localStorage.setItem('token', JSON.stringify(res.data.token));
+        navigate('/');
+
+    } catch (error) {
+        console.error("Signup failed:", error.response?.data || error.message);
+    }
+};
 
 
   return (
