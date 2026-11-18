@@ -10,7 +10,7 @@ const Login = () => {
     const [email, setMail] = useState('')
     const [password, setPassword] = useState('')
   
-    const url = "${import.meta.env.VITE_API_URL}/login"
+    const url = `${import.meta.env.VITE_API_URL}/login`;
  
     const changeMailHandler = (e) => {
         setMail(e.target.value)
